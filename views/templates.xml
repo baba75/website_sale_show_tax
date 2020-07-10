@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+        <!-- Adds blog assets in Odoo -->
+        <template id="assets_show_tax" name="Show if tax included assets" inherit_id="web.assets_frontend">
+            <xpath expr="//link[last()]" position="after">
+                <link rel="stylesheet" type="text/css" href="/website_sale_show_tax/static/src/css/tax.css"/>
+            </xpath>
+        </template>
+
+        <template id="product_grid_show_tax_incl" name="Show tax included/excluded" inherit_id="website_sale.products_item" customize_show="True" active="True">
+            <span itemprop="priceCurrency" position="after">
+                <br/>
+                <t groups="account.group_show_line_subtotals_tax_excluded">
+                    <span class="tax_grid">(<t t-raw="website.company_id.account_sale_tax_id.name"/> exc.)</span>
+                </t>
+                <t groups="account.group_show_line_subtotals_tax_included">
+                    <span class="tax_grid">(<t t-raw="website.company_id.account_sale_tax_id.name"/> inc.)</span>
+                </t>
+            </span>
+        </template>
+
+        <template id="product_price_show_tax_incl" name="Show tax included/excluded" inherit_id="website_sale.product_price" 
+                  customize_show="True" active="True">
+            <span itemprop="priceCurrency" position="after">
+                <t groups="account.group_show_line_subtotals_tax_excluded">
+                    <span class="tax_prod" t-raw="website.company_id.account_sale_tax_id.name"/> 
+                    <span class="tax_prod">excluded</span>
+                </t>
+                <t groups="account.group_show_line_subtotals_tax_included" >
+                    <span class="tax_prod" t-raw="website.company_id.account_sale_tax_id.name"/>
+                    <span class="tax_prod">included</span>
+                </t>
+            </span>
+        </template>
+
+    </data>
+</odoo>
